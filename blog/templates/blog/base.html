@@ -1,0 +1,103 @@
+{% load static %}
+{% load post_tags %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+	<meta name="description" content="welcome to My Blog">
+    <link rel="stylesheet" href="{% static 'blog/css/bootstrap.min.css' %}">
+    <link rel="stylesheet" type="text/css" href="{% static 'blog/css/main.css' %}">
+    <title>Title</title>
+</head>
+<body>
+    <header>
+        <nav class="navbar navbar-expand-lg navbar-light bg-light">
+    <div class="container">
+      <a class="navbar-brand" href="{% url 'blog:home' %}">Blog</a>
+      <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+        <span class="navbar-toggler-icon"></span>
+      </button>
+
+      <div class="collapse navbar-collapse" id="navbarSupportedContent">
+        <ul class="navbar-nav mr-auto mb-2 mb-lg-0">
+          <li class="nav-item active">
+            <a class="nav-link" href="{% url 'blog:home' %}">Home<span class="sr-only">(current)</span></a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" href="#">About</a>
+          </li>
+        </ul>
+        <ul class="navbar-nav mb-2 mb-lg-0">
+              {% if user.is_authenticated %}
+                  <li class="nav-item">
+                    <a class="nav-link" href="{% url 'blog:post-create' %}">New Post</a>
+                  </li>
+                  <li class="nav-item">
+                    <a class="nav-link" href="{% url 'profile' %}">Profile</a>
+                  </li>
+                  <li class="nav-item">
+                    <a class="nav-link" href="{% url 'logout' %}">Logout</a>
+                  </li>
+              {% else %}
+                  <li class="nav-item">
+                    <a class="nav-link" href="{% url 'login' %}">Login</a>
+                  </li>
+                  <li class="nav-item">
+                    <a class="nav-link" href="{% url 'register' %}">Register</a>
+                  </li>
+              {% endif %}
+          </ul>
+        <form class="form-inline my-2 my-lg-0" method="GET" action="{% url 'blog:home' %}">
+          <input class="form-control mr-sm-2" type="search" name="q" placeholder="Search" aria-label="Search">
+          <button class="btn btn-outline-success my-2 my-sm-0" type="submit" value="search">Search</button>
+        </form>
+      </div>
+    </div>
+</nav>
+    </header>
+
+    <main class="container col-md-8">
+        <div class="row">
+            <div class="col-md-8">
+                {% if messages %}
+                    {% for message in messages %}
+                        <div class="alert alert-{{ message.tags }}">
+                            {{ message }}
+                        </div>
+                    {% endfor %}
+                {% endif %}
+            </div>
+        </div>
+    </main>
+
+    <div class="container col-md-9">
+        <div class="row">
+            <div class="col-md-7">
+                 {% block content %}
+                 {% endblock content %}
+            </div>
+            <div class="col-md-5">
+                <div class="content-section">
+                    <h4>Latest Posts !</h4>
+                    {% latest_posts %}
+                </div>
+                <div class="content-section">
+                    <h4>Latest Comments !</h4>
+                    {% latest_comments %}
+                </div>
+            </div>
+        </div>
+    </div>
+	<footer class="text-center">
+        <div class="container pt-3 pb-3">
+            all rights reserved &reg; copyrights to <a href="https://github.com/kamelagdev">kamel ag</a> &copy;
+        </div>
+	</footer>
+
+    <script src="{% static 'blog/js/jquery-3.2.1.slim.min.js' %}"></script>
+    <script src="{% static 'blog/js/popper.min.js' %}"></script>
+    <script src="{% static 'blog/js/bootstrap.min.js' %}"></script>
+</body>
+</html>
+

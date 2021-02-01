@@ -1,0 +1,21 @@
+from django import template
+from blog.models import Post, Comment
+
+
+register = template.Library()
+
+
+@register.inclusion_tag('blog/latest_posts.html')
+def latest_posts():
+    context = {
+        'l_posts': Post.objects.all().order_by('-date_posted')[:4]
+    }
+    return context
+
+
+@register.inclusion_tag('blog/latest_comments.html')
+def latest_comments():
+    context = {
+        'l_comments': Comment.objects.all().order_by('-date_posted')[:4]
+    }
+    return context

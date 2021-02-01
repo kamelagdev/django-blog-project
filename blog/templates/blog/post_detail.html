@@ -1,0 +1,60 @@
+{% extends 'blog/base.html' %}
+{% load crispy_forms_tags %}
+{% block content %}
+        <article class="media content-section mb-4">
+          <img class="rounded-circle article-img" src="{{ post.author.profile.image.url }}" alt="user-image">
+          <div class="media-body">
+            <div class="article-metadata">
+              <a class="mr-2" href="{% url 'blog:user-posts' post.author.username %}">{{ post.author }}</a>
+              <small class="text-muted">{{ post.date_posted|date:"F d, Y H:i" }}</small>
+            </div>
+              {% if user == post.author %}
+                  <div class="border-bottom pb-2">
+                      <a class="btn btn-danger btn-sm mt-1 mb-1" href="{% url 'blog:post-delete' post.id %}">Delete</a>
+                      <a class="btn btn-dark btn-sm mt-1 mb-1" href="{% url 'blog:post-update' post.id %}">Update</a>
+                  </div>
+              {% endif %}
+            <h2><a class="article-title" href="{% url 'blog:post-detail' post.id %}">{{ post.title }}</a></h2>
+            <p class="article-content">{{ post.content }}</p>
+          </div>
+        </article>
+
+            <div class="page-header border-bottom mb-4">
+                <h2><small class="float-right">{{ comments|length }} comments</small> Comments </h2>
+            </div>
+            <div class="comments-list mb-4">
+
+                    <div class="content-section p-4">
+                        {% for com in comments %}
+                            <div class="border-bottom mb-4">
+                               <p class="float-right"><small>{{ com.date_posted }}</small></p>
+                                <a class="media-left" href="#">
+                                  <img src="http://lorempixel.com/40/40/people/1/" alt="user-image">
+                                </a>
+                                <div class="media-body mb-4">
+
+                                  <h4 class="media-heading user_name">{{ com.name }}</h4>
+                                  {{ com.body }}
+                                </div>
+                            </div>
+                {% empty %}
+                    <h5 class="text-center">No comments yet.</h5>
+                {% endfor %}
+                    </div>
+
+    <div class="content-section">
+        <form action="" method="post">
+            {% csrf_token %}
+            <fieldset class="form-group">
+                <legend class="border-bottom">Add new comment</legend>
+            </fieldset>
+            <div class="form-group">
+                {{ form|crispy }}
+            </div>
+            <div class="form-group">
+                <button class="btn btn-primary" type="submit">Comment</button>
+            </div>
+        </form>
+    </div>
+            </div>
+{% endblock content %}

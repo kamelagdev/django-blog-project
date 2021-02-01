@@ -1,0 +1,8 @@
+
+<div class="list-group mb-2">
+    {% for post in l_posts %}
+        <a href="#" class="list-group-item list-group-item-action">{{post.title}}</a>
+    {% empty %}
+        <a href="#" class="list-group-item list-group-item-action">No posts yet.</a>
+    {% endfor %}
+</div>

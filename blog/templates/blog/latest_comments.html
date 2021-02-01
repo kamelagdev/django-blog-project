@@ -1,0 +1,8 @@
+
+<div class="list-group mb-2">
+    {% for com in l_comments %}
+        <a href="#" class="list-group-item list-group-item-action">{{com.body}}</a>
+    {% empty %}
+        <a href="#" class="list-group-item list-group-item-action">No comments yet.</a>
+    {% endfor %}
+</div>

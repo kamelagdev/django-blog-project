@@ -1,0 +1,17 @@
+{% with q_res="&q="|add:query|default:"" %}
+{% if is_paginated %}
+    {% if page_obj.has_previous %}
+        <a class="btn btn-outline-info" href="?page=1{{ q_res }}">First</a>
+        <a class="btn btn-outline-info" href="?page={{ page_obj.previous_page_number }}{{ q_res }}">Previous</a>
+    {% endif %}
+    {% for i in page_obj.paginator.page_range %}
+        {% if i > page_obj.number|add:"-3" and i < page_obj.number|add:"3" %}
+            <a class="btn btn-outline-info" href="?page={{ i }}{{ q_res }}">{{i}}</a>
+        {% endif %}
+    {% endfor %}
+    {% if page_obj.has_next %}
+        <a class="btn btn-outline-info" href="?page={{ page_obj.next_page.number }}{{ q_res }}">Next</a>
+        <a class="btn btn-outline-info" href="?page={{ page_obj.paginator.num_pages }}{{ q_res }}">Last</a>
+    {% endif %}
+{% endif %}
+{% endwith %}
